@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - MusicStream</title>
+  <!-- Bootstrap CDN -->
+  <link href="/static/css/bs5/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: darkgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .error-container {
+      background-color: #1F1F1F;
+      color: red;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      width: 400px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+<div class="error-container">
+  <h2 class="text-center mb-4">Error</h2>
+  <form id="loginfrm">
+    <img src="/static/img/error.png">
+  </form>
+  <div class="text-center mt-3">
+    <p>로그인 화면으로 돌아가기 <a href="/">Login</a></p>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="/static/js/bs5/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

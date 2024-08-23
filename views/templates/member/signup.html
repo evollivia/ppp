@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - MusicStream</title>
+  <!-- Bootstrap CDN -->
+  <link href="/static/css/bs5/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: darkgray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .signup-container {
+      width: 400px;
+      background-color: #1F1F1F;
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+      max-width: 300px;
+      height: auto;
+      /*margin-bottom: 20px;*/
+    }
+  </style>
+</head>
+
+<body>
+<!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"-->
+<!--        async defer></script>-->
+<!--<script type="text/javascript">-->
+<!--  var onloadCallback = () => {-->
+<!--    grecaptcha.render('captcha', { 'sitekey' : '6LeIoCsqAAAAAJKr24psianLAq4kEix6B09MgIwF' });-->
+<!--  };-->
+<!--</script>-->
+<div class="signup-container">
+  <div class="text-center mb-4">
+    <img src="/static/img/logo.png" alt="로고" class="logo">
+  </div>
+<!--  <h2 class="text-center mb-4">Sign up</h2>-->
+  <form name="joinfrm" id="joinfrm">
+    <div class="mb-3">
+      <label for="userid" class="form-label">아이디</label>
+      <input type="text" class="form-control" name="userid" id="userid" required>
+    </div>
+    <div class="mb-3">
+      <label for="passwd" class="form-label">비밀번호</label>
+      <input type="password" class="form-control" name="passwd" id="passwd" required>
+    </div>
+    <div class="mb-3">
+      <label for="repasswd" class="form-label">비밀번호 확인</label>
+      <input type="password" class="form-control" name="repasswd" id="repasswd" required>
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">이름</label>
+      <input type="text" class="form-control" name="name" id="name" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">이메일</label>
+      <input type="email" class="form-control" name="email" id="email" required>
+    </div>
+    <button type="button" id="joinbtn" class="btn btn-primary w-100">회원가입</button>
+  </form>
+  <div class="text-center mt-3">
+    <p>계정이 이미 있으신가요? <a href="/">Login</a></p>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="/static/js/bs5/bootstrap.bundle.min.js"></script>
+<script>
+  let joinbtn = document.querySelector('#joinbtn');
+  let joinfrm = document.querySelector('#joinfrm');
+
+  let checkjoinfrm = (frm) => {
+    if(frm.userid.value === ''){
+      alert('아이디를 입력하세요');
+      frm.userid.focus()
+      return false;
+    } else if(frm.passwd.value === ''){
+      alert('비밀번호를 입력하세요');
+      frm.passwd.focus()
+      return false;
+    } else if(frm.repasswd.value === ''){
+      alert('비밀번호를 다시 입력하세요');
+      frm.repasswd.focus()
+      return false;
+    } else if(frm.repasswd.value !== frm.passwd.value){
+      alert('비밀번호가 일치하지 않습니다');
+      frm.repasswd.focus()
+      return false;
+    } else if(frm.name.value === ''){
+      alert('이름을 입력하세요');
+      frm.name.focus()
+      return false;
+    } else if(frm.email.value === ''){
+      alert('이메일 입력하세요');
+      frm.email.focus()
+      return false;
+    } else {
+      alert('회원가입 성공! 로그인을 해주세요.');
+      return true;
+    }
+  };
+
+  joinbtn.addEventListener('click', () => {
+    if(!checkjoinfrm(joinfrm)) return;
+
+    const formData = new FormData(joinfrm);
+
+    let jsondata = {};
+    formData.forEach((val, key) => {
+      jsondata[key] = val;
+    });
+
+    console.log('전송할 데이터:', jsondata);
+    fetch('/member/signup', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(jsondata),
+      redirect: 'follow'
+    }).then((res) => {
+      if(res.redirected) location.href = res.url;
+    });
+  });
+</script>
+</body>
+
+</html>

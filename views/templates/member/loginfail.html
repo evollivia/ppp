@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Streaming Website</title>
+    <link href="/static/css/bs5/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #343a40;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+        }
+
+        .album-cover {
+            width: 100%;
+            height: auto;
+        }
+
+        .music-player {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 상단바 -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="http://127.0.0.1:8000/member/mainpage">RawMusic</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Bord</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Playlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/member/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 메인 -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1 class="display-4">Stream Your Favorite Music</h1>
+            <p class="lead">Discover new tracks and listen to your favorite artists, all in one place.</p>
+            <button class="btn btn-primary btn-lg">Start Listening</button>
+        </div>
+        <div class="col-lg-6">
+            <img src="/static/album/main.jpg" width="600px" height="400px" alt="Music Hero" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<!-- 앨범 -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Top Albums</h2>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="/static/album/bp.webp" width="300px" height="300px" class="album-cover" alt="Album Cover">
+                <div class="card-body">
+                    <h5 class="card-title">THE ALBUM</h5>
+                    <p class="card-text">Black Pink</p>
+                    <button class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="/static/album/beatles.webp" width="300px" height="300px" class="album-cover" alt="Album Cover">
+                <div class="card-body">
+                    <h5 class="card-title">Abbey Road</h5>
+                    <p class="card-text">Beatles</p>
+                    <button class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="/static/album/nwjns.gif" width="300px" height="300px" class="album-cover" alt="Album Cover">
+                <div class="card-body">
+                    <h5 class="card-title">New Jeans</h5>
+                    <p class="card-text">뉴진스</p>
+                    <button class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card">
+                <img src="/static/album/imgd.webp" width="300px" height="300px" class="album-cover" alt="Album Cover">
+                <div class="card-body">
+                    <h5 class="card-title">Evolve</h5>
+                    <p class="card-text">Imagine Dragons</p>
+                    <button class="btn btn-primary">Play</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 음악 플래이어 -->
+<div class="container music-player mt-5">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="/static/album/nwjns.gif" width="150px" height="150px" alt="Album Cover" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h5>Now Playing</h5>
+            <p>Song Title - Artist Name</p>
+            <audio controls class="w-100">
+                <source src="/static/mp3/로스트원의 호곡.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <button class="btn btn-danger me-2">Previous</button>
+            <button class="btn btn-success">Next</button>
+        </div>
+    </div>
+</div>
+
+<!-- 프로필 -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">사용자 정보</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> abc123</p>
+                <p><strong>이름:</strong> 트래버</p>
+                <p><strong>Email:</strong> abc123@naver.com</p>
+                <p><strong>가입일:</strong> 2024-08-22</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/static/js/bs5/bootstrap.bundle.min.js"></script>
+</body>
+</html>
