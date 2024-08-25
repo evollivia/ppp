@@ -8,6 +8,7 @@ engine = create_engine(config.dbconn, echo=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -15,8 +16,10 @@ def get_db():
     finally:
         db.close()
 
+
 async def db_startup():
     member.Base.metadata.create_all(engine)
+
 
 async def db_shutdown():
     pass

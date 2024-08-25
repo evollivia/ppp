@@ -60,16 +60,13 @@ async def signupok(member: NewMember, db: Session = Depends(get_db)):
 @member_router.get('/mainpage', response_class=HTMLResponse)
 async def mainpage(req: Request, db: Session = Depends(get_db)):
     try:
-        if 'logined_uid' not in req.session:   # 로그인하지 않았다면
-            return RedirectResponse(url = '/', status_code=303)
+        if 'logined_uid' not in req.session:  # 로그인하지 않았다면
+            return RedirectResponse(url='/', status_code=303)
 
-        myinfo = MemberService.selectone_member(db, req.session['logined_uid'])
-        print('--> ', myinfo)
-
-        return templates.TemplateResponse('member/mainpage.html', {'request': req, 'mainpafe': myinfo})
+        return templates.TemplateResponse('member/mainpage.html', {'request': req, 'mainpage': profile})
     except Exception as ex:
         print(f'▷▷▷ mainpage 오류 발생: {str(ex)}')
-        return RedirectResponse(url = '/member/error', status_code=303)
+        return RedirectResponse(url='/member/error', status_code=303)
 
 
 @member_router.get("/error", response_class=HTMLResponse)
@@ -80,3 +77,19 @@ async def error(req: Request):
 @member_router.get("/loginfail", response_class=HTMLResponse)
 async def loginfail(req: Request):
     return templates.TemplateResponse('member/loginfail.html', {'request': req})
+
+
+@member_router.get("/profile", response_class=HTMLResponse)
+async def profile(req: Request, db: Session = Depends(get_db)):
+    try:
+        if 'logined_uid' not in req.session:  # 로그인하지 않았다면
+            return RedirectResponse(url='/member/login', status_code=303)
+
+        myinfo = MemberService.selectone_member(db, req.session['logined_uid'])
+        print('--> ', myinfo)
+
+        return templates.TemplateResponse('member/profile.html', {'request': req,  'profile': myinfo})
+
+    except Exception as ex:
+        print(f'▷▷▷ myinfo 오류 발생: {str(ex)}')
+        return RedirectResponse(url='/member/error', status_code=303)
