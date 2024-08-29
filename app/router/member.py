@@ -4,6 +4,7 @@ from starlette.responses import HTMLResponse, RedirectResponse
 from starlette.templating import Jinja2Templates
 
 from app.dbfactory import get_db
+from app.model.member import Member
 from app.schema.member import NewMember
 from app.service.member import MemberService
 
@@ -93,3 +94,9 @@ async def profile(req: Request, db: Session = Depends(get_db)):
     except Exception as ex:
         print(f'▷▷▷ myinfo 오류 발생: {str(ex)}')
         return RedirectResponse(url='/member/error', status_code=303)
+
+
+@member_router.get('/check_userid')
+async def check_userid(userid: str, db: Session = Depends(get_db)):
+    user_exists = db.query(Member).filter(Member.userid == userid).first()
+    return {"exists": user_exists is not None}

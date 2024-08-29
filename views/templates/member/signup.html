@@ -10,26 +10,30 @@ Signup - MusicStream
 {% block main %}
   <main class="background">
     <div class="welcome-message">
-      <p>RawMelody에 오신것을 환영합니다</p>
+      <p>GitMusic에 오신것을 환영합니다</p>
     </div>
     <div class="signup-container">
       <div class="text-center mb-4">
         <img src="/static/img/logo.png" alt="로고" class="logo">
       </div>
       <form name="joinfrm" id="joinfrm">
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="userid" class="form-label">아이디</label>
-          <input type="text" class="form-control" name="userid" id="userid" required>
+            <div class="input-group">
+                <input type="text" class="form-control" name="userid" id="userid" required>
+                <button type="button" id="checkUserIdBtn" class="btn btn-secondary">중복 체크</button>
+            </div>
+            <div id="userid-feedback" class="invalid-feedback"></div>
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="passwd" class="form-label">비밀번호</label>
           <input type="password" class="form-control" name="passwd" id="passwd" required>
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="repasswd" class="form-label">비밀번호 확인</label>
           <input type="password" class="form-control" name="repasswd" id="repasswd" required>
         </div>
-        <div class="mb-3">
+        <div class="mb-2">
           <label for="name" class="form-label">이름</label>
           <input type="text" class="form-control" name="name" id="name" required>
         </div>
@@ -51,6 +55,41 @@ Signup - MusicStream
 <script>
   let joinbtn = document.querySelector('#joinbtn');
   let joinfrm = document.querySelector('#joinfrm');
+  let checkUserIdBtn = document.querySelector('#checkUserIdBtn');
+  let useridInput = document.querySelector('#userid');
+  let useridFeedback = document.querySelector('#userid-feedback');
+  let isChecked = false;
+
+  let checkUserId = async (userid) => {
+      try {
+          let response = await fetch(`/member/check_userid?userid=${userid}`);
+          let data = await response.json();
+          return data.exists;
+      } catch (error) {
+          console.error('Error checking userid:', error);
+          return true; // 오류 발생 시 중복으로 간주
+      }
+  };
+
+  checkUserIdBtn.addEventListener('click', async () => {
+      if (useridInput.value === '') {
+          alert('아이디를 입력하세요.');
+          return;
+      }
+
+      let isDuplicate = await checkUserId(useridInput.value);
+      if (isDuplicate) {
+          useridInput.classList.add('is-invalid');
+          useridFeedback.textContent = alert('이미 사용 중인 아이디입니다.');
+          isChecked = false; // 중복된 경우 회원가입을 막음
+      } else {
+          useridInput.classList.remove('is-invalid');
+          useridFeedback.textContent = alert('사용 가능한 아이디입니다.');
+          useridInput.classList.add('is-valid');
+          isChecked = true;
+      }
+  });
+
 
   let checkjoinfrm = (frm) => {
     if(frm.userid.value === ''){
@@ -98,6 +137,11 @@ Signup - MusicStream
   }
 
   joinbtn.addEventListener('click', () => {
+      if (!isChecked) {
+          alert('아이디 중복 체크를 먼저 수행해주세요.');
+          return;
+      }
+
     if(!checkjoinfrm(joinfrm)) return;
 
     const formData = new FormData(joinfrm);
